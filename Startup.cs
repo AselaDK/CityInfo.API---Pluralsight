@@ -23,7 +23,14 @@ namespace CityInfo.API
         {
             if (env.IsDevelopment())
             {
+                //in dev environment it will show error
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                //in production environment it will show nothing
+                app.UseExceptionHandler();
+                // to see prod env change properties of project then debug->Environment, Development to Production
             }
 
             app.UseRouting();
