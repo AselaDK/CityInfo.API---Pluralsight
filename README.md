@@ -1,0 +1,2 @@
+# CityInfo.API---Pluralsight
+Learning project - how to build an API with ASP.NET Core that connects to a database via Entity Framework Core.  Covering major topics like getting resources from services and manipulating them, the built-in dependency injection system &amp; logger, working with different environments, configuration files and middleware, and Entity Framework Core related features like working with migrations and seeding the database. By doing this course, you will be able to build an API from scratch with ASP.NET Core.
