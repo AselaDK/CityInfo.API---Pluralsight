@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 
 namespace CityInfo.API
 {
@@ -17,10 +18,15 @@ namespace CityInfo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc() // mvc middleware to handle http requests
-                .AddMvcOptions(o =>
-                 {
+                .AddJsonOptions(o => {  // this settings is for case sensitive json - serializable json
+                    o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                })
+                .AddMvcOptions(o => // this is for use mvc
+                {
                      o.EnableEndpointRouting = false;
-                 });
+                });
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +46,7 @@ namespace CityInfo.API
 
             app.UseStatusCodePages();   // it will return 404 text 
             app.UseMvc();
-   
+
         }
     }
 }
