@@ -38,18 +38,9 @@ namespace CityInfo.API
                 // to see prod env change properties of project then debug->Environment, Development to Production
             }
 
+            app.UseStatusCodePages();   // it will return 404 text 
             app.UseMvc();
-            //app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
-
-            
+   
         }
     }
 }
