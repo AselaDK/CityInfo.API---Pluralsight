@@ -18,15 +18,16 @@ namespace CityInfo.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc() // mvc middleware to handle http requests
-                .AddJsonOptions(o => {  // this settings is for case sensitive json - serializable json
-                    o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                    o.JsonSerializerOptions.PropertyNamingPolicy = null;
-                })
+                              //.AddJsonOptions(o => {  // this settings is for case sensitive json - serializable json
+                              //    o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                              //    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                              //})
                 .AddMvcOptions(o => // this is for use mvc
                 {
-                     o.EnableEndpointRouting = false;
-                });
-                
+                    o.EnableEndpointRouting = false;
+                })
+                .AddXmlDataContractSerializerFormatters();  // add this to serialize the output in XML format
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
