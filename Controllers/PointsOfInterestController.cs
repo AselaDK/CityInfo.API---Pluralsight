@@ -53,6 +53,21 @@ namespace CityInfo.API.Controllers
         [HttpPost]
         public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestForCreationDto pointOfInterest)
         {
+            // check Description and Name are same
+            if(pointOfInterest.Description == pointOfInterest.Name)
+            {
+                ModelState.AddModelError(
+                    "Description",
+                    "The provider description should be differ from the name."
+                );
+            }
+
+            // send bad request if the model state is not valid
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
             if(city == null)
             {
