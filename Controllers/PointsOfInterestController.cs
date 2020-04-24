@@ -27,7 +27,7 @@ namespace CityInfo.API.Controllers
         }
 
         // get a point of interest of given Id
-        [HttpGet("{id}", Name="GetPointOfInterest")]
+        [HttpGet("{id}", Name = "GetPointOfInterest")]
         public IActionResult GetPointOfInterest(int cityId, int id)
         {
             //find a point of interest
@@ -54,7 +54,7 @@ namespace CityInfo.API.Controllers
         public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestForCreationDto pointOfInterest)
         {
             // check Description and Name are same
-            if(pointOfInterest.Description == pointOfInterest.Name)
+            if (pointOfInterest.Description == pointOfInterest.Name)
             {
                 ModelState.AddModelError(
                     "Description",
@@ -69,7 +69,7 @@ namespace CityInfo.API.Controllers
             }
 
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-            if(city == null)
+            if (city == null)
             {
                 return NotFound();
             }
@@ -85,9 +85,52 @@ namespace CityInfo.API.Controllers
 
             city.PointsOfInterest.Add(finalPointOfInterest);
 
-            return CreatedAtRoute("GetPointOfInterest",  
+            return CreatedAtRoute("GetPointOfInterest",
                 new { cityId, id = finalPointOfInterest.Id }, finalPointOfInterest
             );
+        }
+
+        //update method for fully update
+        [HttpPut("{id}")]
+        public IActionResult UpdatePointOfInterest(int cityId, int id, 
+            [FromBody] PointOfInterestForUpdateDto pointOfInterest)
+        {
+            // check Description and Name are same
+            if (pointOfInterest.Description == pointOfInterest.Name)
+            {
+                ModelState.AddModelError(
+                    "Description",
+                    "The provider description should be differ from the name."
+                );
+            }
+
+            // send bad request if the model state is not valid
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // check city
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            // check pointofinterest 
+            var pointOfInterestFromStore = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
+            
+            if(pointOfInterest == null)
+            {
+                return BadRequest();
+            }
+
+            // changing store values
+            pointOfInterestFromStore.Name = pointOfInterest.Name;
+            pointOfInterestFromStore.Description = pointOfInterest.Description;
+
+            return NoContent();
+
         }
     }
 }
