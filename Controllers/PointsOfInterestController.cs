@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CityInfo.API.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
@@ -92,7 +93,7 @@ namespace CityInfo.API.Controllers
 
         //update method for fully update
         [HttpPut("{id}")]
-        public IActionResult UpdatePointOfInterest(int cityId, int id, 
+        public IActionResult UpdatePointOfInterest(int cityId, int id,
             [FromBody] PointOfInterestForUpdateDto pointOfInterest)
         {
             // check Description and Name are same
@@ -119,10 +120,9 @@ namespace CityInfo.API.Controllers
 
             // check pointofinterest 
             var pointOfInterestFromStore = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
-            
-            if(pointOfInterest == null)
+            if (pointOfInterestFromStore == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             // changing store values
