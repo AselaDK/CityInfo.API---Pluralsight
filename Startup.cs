@@ -17,16 +17,20 @@ namespace CityInfo.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc() // mvc middleware to handle http requests
-                              //.AddJsonOptions(o => {  // this settings is for case sensitive json - serializable json
-                              //    o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                              //    o.JsonSerializerOptions.PropertyNamingPolicy = null;
-                              //})
+            services.AddControllers() // mvc middleware to handle http requests
+                              .AddJsonOptions(o =>
+                              {  // this settings is for case sensitive json - serializable json
+                                  o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                                  o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                              })
                 .AddMvcOptions(o => // this is for use mvc
                 {
                     o.EnableEndpointRouting = false;
+                    o.ReturnHttpNotAcceptable = true;
                 })
-                .AddXmlDataContractSerializerFormatters();  // add this to serialize the output in XML format
+                .AddXmlDataContractSerializerFormatters();
+                //.AddNewtonsoftJson(setupAction =>
+                //    setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());  // add this to serialize the output in XML format
 
         }
 
